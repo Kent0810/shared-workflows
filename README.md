@@ -18,11 +18,12 @@ on:
 jobs:
   review:
     uses: <owner>/shared_workflow/.github/workflows/claude-review.yml@main
-    with:
-      federation_rule_id: fdrl_...
-      organization_id: <org UUID>
-      service_account_id: svac_...
-      # workspace_id: wrkspc_...   # only if the rule covers several workspaces
+    secrets:
+      federation_rule_id: ${{ secrets.FEDERATION_RULE_ID }}
+      organization_id: ${{ secrets.ORGANIZATION_ID }}
+      service_account_id: ${{ secrets.SERVICE_ACCOUNT_ID }}
+    # with:
+    #   workspace_id: wrkspc_...   # only if the rule covers several workspaces
     permissions:
       contents: read
       pull-requests: write
@@ -30,11 +31,18 @@ jobs:
       id-token: write
 ```
 
-### Inputs
+Store the three IDs as repository secrets (Settings → Secrets and variables → Actions).
 
-| Input | Required | Description |
+### Secrets
+
+| Secret | Required | Description |
 |---|---|---|
 | `federation_rule_id` | yes | Anthropic federation rule ID (`fdrl_...`) |
 | `organization_id` | yes | Anthropic organization UUID |
 | `service_account_id` | yes | Anthropic service account ID (`svac_...`) |
+
+### Inputs
+
+| Input | Required | Description |
+|---|---|---|
 | `workspace_id` | no | Workspace ID (`wrkspc_...`), only needed if the rule covers several workspaces |
